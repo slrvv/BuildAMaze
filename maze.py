@@ -18,22 +18,22 @@ class Maze :
             (i,i+n) for i in range(self.graph.vertices_num - n)
         ])
 
-    def remove_segments(self):
+    def remove_segments(self, print_b = False):
         """
         Randomly draw edges and remove them until
         upper left und lower right are in one component
         """
-        print("--- Remove Segments ---")
+        if print_b: print("--- Remove Segments ---")
 
         while DS.find_component(self.components, 0) != DS.find_component(self.components, self.graph.vertices_num-1):
             e = sample(self.not_edges, 1)[0]
-            print("sampled edge:", e)
+            if print_b: print("sampled edge:", e)
             cc_u = DS.find_component(self.components, e[0])
             cc_v = DS.find_component(self.components, e[1])
             DS.union_by_rank(self.components, cc_u, cc_v)
             self.not_edges.remove(e)
             self.graph.add_edge(e[0], e[1])
-            print(self)
+            if print_b: print(self)
 
         return self
 
