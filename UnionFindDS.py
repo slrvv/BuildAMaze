@@ -15,13 +15,14 @@ class Component :
         self.parent = parent
         self.rank = rank
 
-## find in which component a given node is
+## find in which component a given node is using path compression normal
+## recursion gets too deep
 def find_component(components, node):
-
-    if components[node].parent == node :
-        return node
-    else :
-        return find_component(components, components[node].parent)
+	while node != components[node].parent:
+		components[node].parent = components[components[node].parent].parent
+		node = components[node].parent
+	else :
+		return node
 
 # function to do union by rank of two components , identified by cc_u, cc_v
 def union_by_rank(components, cc_u, cc_v):
