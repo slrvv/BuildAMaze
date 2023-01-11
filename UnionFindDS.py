@@ -18,21 +18,21 @@ class Component :
 ## find in which component a given node is using path compression normal
 ## recursion gets too deep
 def find_component(components, node):
-	while node != components[node].parent:
-		components[node].parent = components[components[node].parent].parent
-		node = components[node].parent
-	else :
-		return node
+    while node != components[node].parent:
+        components[node].parent = components[components[node].parent].parent
+        node = components[node].parent
+
+    return node
 
 # function to do union by rank of two components , identified by cc_u, cc_v
 def union_by_rank(components, cc_u, cc_v):
 
     if components[cc_u].rank > components[cc_v].rank :
-        components[cc_u].parent = cc_v
+        components[cc_v].parent = cc_u
 
     elif components[cc_v].rank > components[cc_u].rank :
-        components[cc_v].parent = cc_u
+        components[cc_u].parent = cc_v
     #pick one to break the tie, increase the rank of one of them by one.
     else :
         components[cc_v].parent = cc_u
-        components[cc_v].rank += 1
+        components[cc_u].rank += 1

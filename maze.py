@@ -9,11 +9,11 @@ class Maze :
 
         self.components = []
         for u in range(self.graph.vertices_num):
-            self.components.append(DS.Component(u, u))
+            self.components.append(DS.Component(u, 0))
 
         # edges, that are available for deletion
         self.not_edges = set([
-            (i,i+1) for i in range(self.graph.vertices_num) if i % 4 != 3
+            (i,i+1) for i in range(self.graph.vertices_num-1) if i % n != n-1
         ] + [
             (i,i+n) for i in range(self.graph.vertices_num - n)
         ])
@@ -26,6 +26,8 @@ class Maze :
         if print_b: print("--- Remove Segments ---")
 
         while DS.find_component(self.components, 0) != DS.find_component(self.components, self.graph.vertices_num-1):
+            if len(self.not_edges) == 0: break#raise ValueError("AAAAAAAAAAAAA")
+            # print(DS.find_component(self.components, 0), "!=", DS.find_component(self.components, self.graph.vertices_num-1))
             e = sample(self.not_edges, 1)[0]
             if print_b: print("sampled edge:", e)
             cc_u = DS.find_component(self.components, e[0])
@@ -55,13 +57,13 @@ class Maze :
                     else:
                         res += one_h[0]
                 else:
-                    if idx >= 10: one_v = one_v2
+                    if False and idx >= 10: one_v = one_v2
                     else: one_v = one_v1
 
                     if idx in self.graph.edges[idx-1] and j != 0:
-                        res += str(idx).join(one_v[1])
+                        res += " ".join(one_v[1])
                     else:
-                        res += str(idx).join(one_v[0])
+                        res += " ".join(one_v[0])
 
             if i % 2 == 1: res += "+\n"
             else: res += "|\n"
